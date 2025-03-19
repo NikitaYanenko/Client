@@ -4,7 +4,6 @@
 Client::Client(const std::string& serverIp, const int serverPort)
     : serverIp(serverIp), serverPort(serverPort), clientSocket(INVALID_SOCKET) {
     if (WSAStartup(MAKEWORD(2, 2), &wsadata) != 0) {
-        std::cerr << "WSAStartup failed" << std::endl;
         throw std::runtime_error("WSAStartup failed");
     }
 
@@ -22,7 +21,6 @@ Client::~Client() {
 SOCKET Client::createSocket() {
     SOCKET socket = ::socket(AF_INET, SOCK_STREAM, 0);
     if (socket == INVALID_SOCKET) {
-        std::cerr << "Socket creation failed" << std::endl;
         throw std::runtime_error("Socket creation failed");
     }
     return socket;
@@ -37,7 +35,6 @@ void Client::connectToServer() {
     if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
         closesocket(clientSocket);
         clientSocket = INVALID_SOCKET;
-        std::cerr << "Failed to connect to server" << std::endl;
         throw std::runtime_error("Failed to connect to server");
     }
 
