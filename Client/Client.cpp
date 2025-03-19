@@ -48,7 +48,6 @@ std::string Client::receiveResponse() const {
     char buffer[1024];
     int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesReceived == SOCKET_ERROR) {
-        std::cerr << "Failed to receive data from server" << std::endl;
         throw std::runtime_error("Failed to receive data from server");
     }
 
@@ -78,14 +77,13 @@ std::string Client::sendRequest(const std::string& input) {
     }
 
     if (send(clientSocket, input.c_str(), input.size(), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send data to server" << std::endl;
         throw std::runtime_error("Failed to send data to server");
     }
 
     return receiveResponse();
 }
 
-bool Client::testClient() {
+bool Client::testClient()  {
     std::vector<std::pair<std::string, std::string>> testCases = {
         {"hello", "hhellllo"},
         {"world", "wworrlldd"},
